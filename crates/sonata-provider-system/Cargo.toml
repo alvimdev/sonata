@@ -1,0 +1,16 @@
+[package]
+name = "sonata-provider-system"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+async-trait = { workspace = true }
+sonata-core = { path = "../sonata-core" }
+tokio = { workspace = true }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+futures-util = "0.3"
+zbus = { version = "5", features = ["tokio"] }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+windows = { version = "0.62", features = ["Foundation", "Media_Control"] }

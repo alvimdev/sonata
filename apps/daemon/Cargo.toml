@@ -1,0 +1,15 @@
+[package]
+name = "daemon"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+serde = { workspace = true }
+sonata-core = { path = "../../crates/sonata-core" }
+sonata-provider-system = { path = "../../crates/sonata-provider-system" }
+sonata-rpc = { path = "../../crates/sonata-rpc" }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+toml = "0.9"
+tracing = { workspace = true }
+tracing-subscriber = { version = "0.3", features = ["fmt"] }

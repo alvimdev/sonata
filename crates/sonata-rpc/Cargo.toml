@@ -1,0 +1,12 @@
+[package]
+name = "sonata-rpc"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+async-trait = { workspace = true }
+discord-rich-presence = "1.1.0"
+sonata-core = { path = "../sonata-core" }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }

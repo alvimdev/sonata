@@ -1,0 +1,25 @@
+[workspace]
+resolver = "3"
+
+members = [
+    "apps/daemon",
+
+    "crates/sonata-core",
+    "crates/sonata-rpc",
+    "crates/sonata-provider-system",
+    "crates/sonata-provider-browser",
+]
+
+[workspace.package]
+version = "1.0.0"
+edition = "2026"
+license = "MIT"
+authors = ["Bernardo Alvim"]
+repository = "https://github.com/alvimdev/sonata"
+
+[workspace.dependencies]
+tokio = { version = "1", features = ["full"] }
+async-trait = "0.1"
+thiserror = "2"
+tracing = "0.1"
+serde = { version = "1", features = ["derive"] }
