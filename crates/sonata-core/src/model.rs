@@ -59,6 +59,7 @@ pub struct Track {
     pub album: Option<String>,
     pub duration: Option<Duration>,
     pub artwork_url: Option<String>,
+    pub url: Option<String>,
 }
 
 impl Track {
@@ -76,6 +77,7 @@ impl Track {
             album: None,
             duration: None,
             artwork_url: None,
+            url: None,
         })
     }
 }

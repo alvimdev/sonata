@@ -1,26 +1,33 @@
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
-use discord_rich_presence::activity::{Activity, ActivityType, Assets, Timestamps};
+use discord_rich_presence::activity::{Activity, ActivityType, Assets, Button, Timestamps};
 use sonata_core::{PlaybackState, Track};
 
 const ACTIVITY_NAME: &str = "Sonata";
-const DEFAULT_ARTWORK: &str = "sonata";
+const SONATA_BADGE: &str = "sonata";        // small_image: seu ícone, sempre visível
+const FALLBACK_ARTWORK: &str = "headphones"; // large_image: usado só quando não há capa
 
 pub fn build_activity(
     track: &Track,
     playback_state: PlaybackState,
     position: Option<Duration>,
 ) -> Option<Activity<'static>> {
+    let assets = Assets::new()
+        .large_image(track.artwork_url.clone().unwrap_or_else(|| FALLBACK_ARTWORK.into()))
+        .large_text(large_text(track))
+        .small_image(SONATA_BADGE)
+        .small_text(ACTIVITY_NAME);
+
     let mut activity = Activity::new()
         .name(ACTIVITY_NAME)
         .details(track.title.clone())
         .state(state_text(track))
-        .assets(
-            Assets::new()
-                .large_image(track.artwork_url.clone().unwrap_or_else(|| DEFAULT_ARTWORK.into()))
-                .large_text(large_text(track)),
-        )
+        .assets(assets)
         .activity_type(ActivityType::Listening);
+
+    if let Some(url) = track.url.as_deref() {
+        activity = activity.buttons(vec![Button::new("Ouvir", url)]);
+    }
 
     if playback_state == PlaybackState::Playing
         && let (Some(duration), Some(position)) = (track.duration, position)
