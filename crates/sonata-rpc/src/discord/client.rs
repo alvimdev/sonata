@@ -36,7 +36,11 @@ impl DiscordClient {
     pub async fn clear_activity(&mut self) -> Result<()> {
         self.last_activity = None;
         if let Some(ipc) = self.ipc.as_mut() {
-            ipc.clear_activity()?;
+            if let Err(error) = ipc.clear_activity() {
+                warn!(target: "sonata::discord", error = %error, "IPC Error");
+                self.ipc = None;
+                return Err(error.into());
+            }
             info!(target: "sonata::discord", "Activity Cleared");
         }
 
@@ -61,7 +65,7 @@ impl DiscordClient {
         }
 
         info!(target: "sonata::discord", "Reconnecting");
-        let mut ipc = DiscordIpcClient::new(self.client_id.clone());
+        let mut ipc = DiscordIpcClient::new(&self.client_id)?;
         ipc.connect()?;
         debug!(target: "sonata::discord", "Connected");
         self.ipc = Some(ipc);
@@ -95,10 +99,17 @@ impl DiscordClient {
         self.connect_ipc()?;
 
         if let Some(activity) = self.last_activity.clone() {
-            self.ipc
+            let result = self
+                .ipc
                 .as_mut()
                 .ok_or(Error::MissingClientId)?
-                .set_activity(activity)?;
+                .set_activity(activity);
+
+            if let Err(error) = result {
+                self.ipc = None;
+                return Err(error.into());
+            }
+
             info!(target: "sonata::discord", "Activity Updated");
         }
 

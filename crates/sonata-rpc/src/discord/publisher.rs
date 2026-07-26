@@ -47,12 +47,19 @@ impl DiscordPublisher {
             || self.snapshot.track.is_none()
     }
 
+    fn should_render(&self) -> bool {
+        match &self.last_rendered {
+            None => true,
+            Some(last) => last.track != self.snapshot.track || last.playback_state != self.snapshot.playback_state,
+        }
+    }
+
     async fn publish_snapshot(&mut self) -> Result<()> {
         if self.should_clear() {
             return self.clear().await;
         }
 
-        if self.last_rendered.as_ref() == Some(&self.snapshot) {
+        if !self.should_render() {
             return Ok(());
         }
 
