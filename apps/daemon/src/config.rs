@@ -50,8 +50,8 @@ pub enum ConfigError {
     #[error("the selected provider requires system.player to be set on Linux")]
     MissingSystemPlayer,
 
-    #[error("browser provider is not implemented yet")]
-    BrowserProviderUnavailable,
+    // #[error("browser provider is not implemented yet")]
+    // BrowserProviderUnavailable,
 
     #[error("discord client id is missing; set discord.client_id or SONATA_DISCORD_CLIENT_ID")]
     MissingDiscordClientId,
@@ -103,8 +103,15 @@ impl RuntimeConfig {
 }
 
 fn config_path() -> PathBuf {
-    env::var_os("SONATA_CONFIG")
-        .map(PathBuf::from)
+    if let Some(path) = env::var_os("SONATA_CONFIG") {
+        return PathBuf::from(path);
+    }
+
+    // O cwd não é confiável quando o daemon é spawnado pelo browser (native
+    // messaging) — resolve relativo ao binário, não a quem chamou ele.
+    env::current_exe()
+        .ok()
+        .and_then(|exe| exe.parent().map(|dir| dir.join("sonata.toml")))
         .unwrap_or_else(|| PathBuf::from("sonata.toml"))
 }
 

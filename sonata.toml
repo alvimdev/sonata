@@ -1,4 +1,4 @@
-provider = "system"
+provider = "browser"
 
 [discord]
 client_id = "1530660425967075469"

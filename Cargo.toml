@@ -11,8 +11,8 @@ members = [
 ]
 
 [workspace.package]
-version = "1.0.0"
-edition = "2026"
+version = "0.1.0"
+edition = "2024"
 license = "MIT"
 authors = ["Bernardo Alvim"]
 repository = "https://github.com/alvimdev/sonata"

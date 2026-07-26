@@ -1,0 +1,9 @@
+{
+  "name": "id.zone.sonata",
+  "description": "Sonata daemon — Discord Rich Presence a partir do navegador.",
+  "path": "F:\\Sonata\\sonata.exe",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://bjdcoclofcfkddkdfbpjnaiefdnlapao/"
+  ]
+}

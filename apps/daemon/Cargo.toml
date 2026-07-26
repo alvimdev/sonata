@@ -7,6 +7,7 @@ edition = "2024"
 serde = { workspace = true }
 sonata-core = { path = "../../crates/sonata-core" }
 sonata-provider-system = { path = "../../crates/sonata-provider-system" }
+sonata-provider-browser = { path = "../../crates/sonata-provider-browser" }
 sonata-rpc = { path = "../../crates/sonata-rpc" }
 thiserror = { workspace = true }
 tokio = { workspace = true }
