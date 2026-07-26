@@ -65,7 +65,7 @@ impl DiscordClient {
         }
 
         info!(target: "sonata::discord", "Reconnecting");
-        let mut ipc = DiscordIpcClient::new(&self.client_id)?;
+        let mut ipc = DiscordIpcClient::new(&self.client_id);
         ipc.connect()?;
         debug!(target: "sonata::discord", "Connected");
         self.ipc = Some(ipc);
